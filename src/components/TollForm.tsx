@@ -3,8 +3,10 @@ import { TollTransaction } from "../types";
 
 // TODO: remove ? once props are defined in App
 interface TollFormProps {
-  onSubmit?: (transaction: Partial<TollTransaction>) => void;
-  onCancel?: () => void;
+  onSubmit: (
+    transaction: Omit<TollTransaction, "id"> | TollTransaction
+  ) => void;
+  onCancel: () => void;
   selectedTransaction?: TollTransaction | null;
 }
 
