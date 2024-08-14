@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import TollForm from "./components/TollForm";
 import TollList from "./components/TollList";
+import TollChart from "./components/TollChart";
 import { TollTransaction } from "./types";
 import {
   initDB,
@@ -84,6 +85,7 @@ const App: React.FC = () => {
         onEdit={handleEditToll}
         onDelete={handleDeleteToll}
       />
+      <TollChart transactions={tollTransactions} />
     </div>
   );
 };
