@@ -45,14 +45,20 @@ export const addTollTransaction = (
   if (!db) throw new Error("Database not initialized");
   const id = getNextId();
 
+  // allow for undefined values
+  const vehicleId = transaction.vehicleId || "";
+  const tollBoothId = transaction.tollBoothId || "";
+  const amountPaid =
+    transaction.amountPaid !== undefined ? transaction.amountPaid : 0;
+
   // Command to insert the new transaction into the toll_transactions table
   db.run(
     `INSERT INTO toll_transactions (id, vehicleId, tollBoothId, amountPaid) VALUES (?, ?, ?, ?)`,
-    [id, transaction.vehicleId, transaction.tollBoothId, transaction.amountPaid]
+    [id, vehicleId, tollBoothId, amountPaid]
   );
 
   // Return the complete transaction object including the newly assigned ID
-  return { id, ...transaction };
+  return { id, vehicleId, tollBoothId, amountPaid };
 };
 
 // Update an existing toll transaction
@@ -61,16 +67,18 @@ export const updateTollTransaction = (
 ): void => {
   if (!db) throw new Error("Database not initialized");
 
+  // allow for undefined values
+  const vehicleId = updatedTransaction.vehicleId || "";
+  const tollBoothId = updatedTransaction.tollBoothId || "";
+  const amountPaid =
+    updatedTransaction.amountPaid !== undefined
+      ? updatedTransaction.amountPaid
+      : 0;
+
   // Command to update the toll_transactions table with the new values
   db.run(
     "UPDATE toll_transactions SET vehicleId = ?, tollBoothId = ?, amountPaid = ? WHERE id = ?",
-    // Data to be updated
-    [
-      updatedTransaction.vehicleId,
-      updatedTransaction.tollBoothId,
-      updatedTransaction.amountPaid,
-      updatedTransaction.id,
-    ]
+    [vehicleId, tollBoothId, amountPaid, updatedTransaction.id]
   );
 };
 
@@ -89,7 +97,8 @@ export const getAllTollTransactions = (): TollTransaction[] => {
   const result = db.exec("SELECT * FROM toll_transactions;");
   // Map each row in the result to a TollTransaction object
   return result[0]
-    ? result[0].values.map((row: any) => ({
+    ? // if records are found, return the table values
+      result[0].values.map((row: any) => ({
         id: row[0],
         vehicleId: row[1],
         tollBoothId: row[2],
@@ -98,5 +107,3 @@ export const getAllTollTransactions = (): TollTransaction[] => {
     : // If no records are found, return an empty array
       [];
 };
-
-// export {};

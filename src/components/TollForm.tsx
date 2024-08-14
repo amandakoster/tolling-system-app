@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TollTransaction } from "../types";
 
-// TODO: remove ? once props are defined in App
 interface TollFormProps {
   onSubmit: (
     transaction: Omit<TollTransaction, "id"> | TollTransaction
@@ -19,7 +18,7 @@ const TollForm: React.FC<TollFormProps> = ({
   const [tollBoothId, setTollBoothId] = useState<string>("");
   const [amountPaid, setAmountPaid] = useState<number>(0);
 
-  //looks for changes to selectedTransaction and sets state based on inputs
+  //looks for changes to selectedTransaction array and sets state based on inputs
   useEffect(() => {
     if (selectedTransaction) {
       setVehicleId(selectedTransaction.vehicleId);
@@ -34,50 +33,74 @@ const TollForm: React.FC<TollFormProps> = ({
     setAmountPaid(0);
   };
 
-  const handleSubmit = () => {
-    // use the optional chain operator to avoid error for methods with undefined
-    onSubmit?.({
-      id: selectedTransaction ? selectedTransaction.id : undefined,
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const transaction: Partial<TollTransaction> = {
+      id: selectedTransaction?.id, // Use selectedTransaction id if available, otherwise undefined
       vehicleId,
       tollBoothId,
       amountPaid,
-    });
+    };
+
+    if (selectedTransaction) {
+      // If updating an existing transaction, pass the full object
+      onSubmit(transaction as TollTransaction);
+    } else {
+      // If adding a new transaction, exclude the id field
+      const { id, ...newTransaction } = transaction;
+      onSubmit(newTransaction as Omit<TollTransaction, "id">);
+    }
+
     resetForm();
   };
 
+  const buttonClass = "border border-black m-1 p-1";
+
   return (
-    <div>
+    <form onSubmit={handleSubmit} className="border border-red-500">
       <div>
-        <input
-          type="text"
-          value={vehicleId}
-          onChange={(e) => setVehicleId(e.target.value)}
-          placeholder="Enter Vehicle ID"
-        />
+        <label>
+          Vehicle ID:
+          <input
+            type="text"
+            value={vehicleId}
+            onChange={(e) => setVehicleId(e.target.value)}
+            required
+          />
+        </label>
       </div>
       <div>
-        <input
-          type="text"
-          value={tollBoothId}
-          onChange={(e) => setTollBoothId(e.target.value)}
-          placeholder="Enter Toll Booth ID"
-        />
+        <label>
+          Toll Booth ID:
+          <input
+            type="text"
+            value={tollBoothId}
+            onChange={(e) => setTollBoothId(e.target.value)}
+            required
+          />
+        </label>
       </div>
       <div>
-        <input
-          type="text"
-          value={amountPaid}
-          onChange={(e) => setAmountPaid(Number(e.target.value))}
-          placeholder="Enter Amount Paid"
-        />
+        <label>
+          Amount Paid:
+          <input
+            type="number"
+            value={amountPaid}
+            onChange={(e) => setAmountPaid(Number(e.target.value))}
+            required
+          />
+        </label>
       </div>
       <div>
-        <button onClick={handleSubmit}>
-          {selectedTransaction ? "Update transaction" : "Add Transaction"}
+        <button type="submit" className={buttonClass}>
+          {selectedTransaction ? "Update Transaction" : "Add Transaction"}
         </button>
-        {selectedTransaction && <button onClick={onCancel}>Cancel Edit</button>}
+        <button type="button" onClick={onCancel} className={buttonClass}>
+          Cancel
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 

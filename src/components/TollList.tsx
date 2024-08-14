@@ -21,10 +21,9 @@ const TollList: React.FC<TollListProps> = ({
             <span>Toll Booth ID: {transaction.tollBoothId}</span>
             <span>Amount Paid: ${transaction.amountPaid}</span>
           </li>
-          <div>
-            <button onClick={() => onEdit(transaction)}>Edit</button>
-            <button onClick={() => onDelete(transaction.id)}>Edit</button>
-          </div>
+
+          <button onClick={() => onEdit(transaction)}>Edit</button>
+          <button onClick={() => onDelete(transaction.id)}>Edit</button>
         </>
       ))}
     </ul>
