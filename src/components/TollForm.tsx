@@ -54,8 +54,7 @@ const TollForm: React.FC<TollFormProps> = ({
 
     resetForm();
   };
-
-  const buttonClass = "border border-black m-1 p-1";
+  const buttonClass = "border border-black hover:bg-red-100 m-1 p-1";
 
   return (
     <form onSubmit={handleSubmit} className="border border-red-500">
