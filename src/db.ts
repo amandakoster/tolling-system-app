@@ -1,18 +1,22 @@
-// sql.js is a javascript SQL database. It allows you to create a relational database and query it entirely in the browser. You can try it in this online demo. It uses a virtual database file stored in memory, and thus doesn't persist the changes made to the database. However, it allows you to import any existing sqlite file, and to export the created database as a JavaScript typed array. from the docs: https://sql.js.org/#/
 import initSqlJs, { Database } from "sql.js";
 import { TollTransaction } from "./types";
 
-//test if webassembly is set up
+// Test if WebAssembly is set up
 console.log(typeof WebAssembly === "object");
 
-// Initially setting db to null allows the program to reference the variable and later assign it the actual database connection once it’s ready.
+// Dynamically import the wasm file
+const sqlWasmPath = new URL("sql.js/dist/sql-wasm.wasm", import.meta.url).href;
+
+// Initially setting db to null allows the program to reference the variable and later assign it the actual database connection once it's ready.
 let db: Database | null = null;
 
+// Initialize the database
 export const initDB = async (): Promise<void> => {
-  const sql = await initSqlJs();
-  db = new sql.Database();
-  // command to create the toll_transactions table if it doesn't exist
-  // use db.run to execute the command
+  const SQL = await initSqlJs({
+    locateFile: () => sqlWasmPath, // Use the correct variable name
+  });
+  db = new SQL.Database();
+  // Command to create the toll_transactions table if it doesn't exist
   db.run(
     "CREATE TABLE IF NOT EXISTS toll_transactions (id INTEGER PRIMARY KEY, vehicleId TEXT, tollBoothId TEXT, amountPaid INTEGER);"
   );
@@ -34,28 +38,31 @@ export const getNextId = (): number => {
   return nextId;
 };
 
+// Add a new toll transaction
 export const addTollTransaction = (
   transaction: Omit<TollTransaction, "id">
 ): TollTransaction => {
   if (!db) throw new Error("Database not initialized");
   const id = getNextId();
-  //command to insert the new transaction into the toll_transactions table
+  // Command to insert the new transaction into the toll_transactions table
   db.run(
-    `INSERT INTO toll_transactions (id, vehicleId, tollBoothId, amountPaid) VALUES (${id}, ${transaction.vehicleId}, ${transaction.tollBoothId}, ${transaction.amountPaid})`
+    `INSERT INTO toll_transactions (id, vehicleId, tollBoothId, amountPaid) VALUES (?, ?, ?, ?)`,
+    [id, transaction.vehicleId, transaction.tollBoothId, transaction.amountPaid]
   );
   // Return the complete transaction object including the newly assigned ID
   return { id, ...transaction };
 };
 
+// Update an existing toll transaction
 export const updateTollTransaction = (
   updatedTransaction: TollTransaction
 ): void => {
   if (!db) throw new Error("Database not initialized");
 
   db.run(
-    // command to update the toll_transactions table with the new values
+    // Command to update the toll_transactions table with the new values
     "UPDATE toll_transactions SET vehicleId = ?, tollBoothId = ?, amountPaid = ? WHERE id = ?",
-    // data to be updated
+    // Data to be updated
     [
       updatedTransaction.vehicleId,
       updatedTransaction.tollBoothId,
@@ -63,22 +70,22 @@ export const updateTollTransaction = (
       updatedTransaction.id,
     ]
   );
-  // Update the specific transaction in the toll_transactions table with the given ID
 };
 
+// Delete a toll transaction
 export const deleteTollTransaction = (id: number): void => {
   if (!db) throw new Error("Database not initialized");
-  // command to delete the toll_transactions table with the given ID
+  // Command to delete the toll_transactions record with the given ID
   db.run("DELETE FROM toll_transactions WHERE id = ?", [id]);
 };
 
+// Retrieve all toll transactions
 export const getAllTollTransactions = (): TollTransaction[] => {
   if (!db) throw new Error("Database not initialized");
 
-  // use exec to execute the query, it returns an array of objects
+  // Use exec to execute the query; it returns an array of objects
   const result = db.exec("SELECT * FROM toll_transactions;");
   // Map each row in the result to a TollTransaction object
-  // If no records are found, return an empty array
   return result[0]
     ? result[0].values.map((row: any) => ({
         id: row[0],
@@ -86,5 +93,8 @@ export const getAllTollTransactions = (): TollTransaction[] => {
         tollBoothId: row[2],
         amountPaid: row[3],
       }))
-    : [];
+    : // If no records are found, return an empty array
+      [];
 };
+
+// export {};
