@@ -13,7 +13,7 @@ let db: Database | null = null;
 // Initialize the database
 export const initDB = async (): Promise<void> => {
   const SQL = await initSqlJs({
-    locateFile: () => sqlWasmPath, // Use the correct variable name
+    locateFile: () => sqlWasmPath,
   });
   db = new SQL.Database();
   // Command to create the toll_transactions table if it doesn't exist
@@ -44,11 +44,13 @@ export const addTollTransaction = (
 ): TollTransaction => {
   if (!db) throw new Error("Database not initialized");
   const id = getNextId();
+
   // Command to insert the new transaction into the toll_transactions table
   db.run(
     `INSERT INTO toll_transactions (id, vehicleId, tollBoothId, amountPaid) VALUES (?, ?, ?, ?)`,
     [id, transaction.vehicleId, transaction.tollBoothId, transaction.amountPaid]
   );
+
   // Return the complete transaction object including the newly assigned ID
   return { id, ...transaction };
 };
@@ -59,8 +61,8 @@ export const updateTollTransaction = (
 ): void => {
   if (!db) throw new Error("Database not initialized");
 
+  // Command to update the toll_transactions table with the new values
   db.run(
-    // Command to update the toll_transactions table with the new values
     "UPDATE toll_transactions SET vehicleId = ?, tollBoothId = ?, amountPaid = ? WHERE id = ?",
     // Data to be updated
     [

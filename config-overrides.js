@@ -1,3 +1,4 @@
+// js vs ts as this file works with node modules
 const webpack = require('webpack');
 
 module.exports = function override(config) {

@@ -9,12 +9,11 @@ interface TollFormProps {
   onCancel: () => void;
   selectedTransaction?: TollTransaction | null;
 }
-
 const TollForm: React.FC<TollFormProps> = ({
   onSubmit,
   onCancel,
   selectedTransaction,
-}) => {
+}: TollFormProps) => {
   // state to manage form
   const [vehicleId, setVehicleId] = useState<string>("");
   const [tollBoothId, setTollBoothId] = useState<string>("");
