@@ -30,6 +30,26 @@ const App: React.FC = () => {
     initializeDB();
   }, []);
 
+  useEffect(() => {
+    // Simulate live data from multiple toll booths
+    const simulateLiveData = setInterval(() => {
+      const tollBoothIds = ["Booth-1", "Booth-2", "Booth-3", "Booth-4"];
+      const randomVehicleId = `Vehicle-${Math.floor(Math.random() * 100)}`;
+      const randomTollBoothId =
+        tollBoothIds[Math.floor(Math.random() * tollBoothIds.length)];
+      const randomAmountPaid = Math.floor(Math.random() * 100) + 1;
+
+      handleAddToll({
+        vehicleId: randomVehicleId,
+        tollBoothId: randomTollBoothId,
+        amountPaid: randomAmountPaid,
+      });
+    }, 3000);
+
+    // Cleanup on component unmount
+    return () => clearInterval(simulateLiveData);
+  }, []);
+
   const handleAddOrUpdateToll = (
     transaction: Omit<TollTransaction, "id"> | TollTransaction
   ) => {
