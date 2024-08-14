@@ -26,9 +26,10 @@ ChartJS.register(
 
 interface TollChartProps {
   transactions: TollTransaction[];
+  className?: string;
 }
 
-const TollChart: React.FC<TollChartProps> = ({ transactions }) => {
+const TollChart: React.FC<TollChartProps> = ({ transactions, className }) => {
   const chartData = {
     labels: transactions.map(
       (transaction) => `Booth ${transaction.tollBoothId}`
@@ -54,7 +55,7 @@ const TollChart: React.FC<TollChartProps> = ({ transactions }) => {
   };
 
   return (
-    <div>
+    <div className={className}>
       <h2>Toll Transaction Chart</h2>
       <Line data={chartData} options={chartOptions} />
     </div>

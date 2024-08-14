@@ -112,9 +112,17 @@ const App: React.FC = () => {
   const buttonClass = "border border-black hover:bg-red-100 m-1 p-1";
 
   return (
-    <div className="App">
-      <h1>Tolling System App</h1>
-      <button onClick={toggleStreaming} className={buttonClass}>
+    <div className="App p-4">
+      <h1 className="text-3xl font-bold mb-4">Tolling System App</h1>
+      <button
+        onClick={toggleStreaming}
+        className="
+        bg-blue-500
+        text-white
+        m-2
+        p-2
+        rounded"
+      >
         {streaming ? "Stop Streaming Data" : "Start Streaming Data"}
       </button>
       <TollForm
@@ -122,12 +130,18 @@ const App: React.FC = () => {
         onCancel={handleCancelEdit}
         selectedTransaction={selectedTransaction}
       />
-      <TollList
-        transactions={tollTransactions}
-        onEdit={handleEditToll}
-        onDelete={handleDeleteToll}
-      />
-      <TollChart transactions={tollTransactions} />
+      <div className="flex flex-wrap">
+        <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+          <TollList
+            transactions={tollTransactions}
+            onEdit={setSelectedTransaction}
+            onDelete={handleDeleteToll}
+          />
+        </div>
+        <div className="w-full md:w-1/2 lg:w-3/4 p-2">
+          <TollChart transactions={tollTransactions} />
+        </div>
+      </div>
     </div>
   );
 };
