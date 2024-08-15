@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Tolling System App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+The Tolling System App is designed to manage toll transactions efficiently. This app allows you to add, update, and query toll transactions in a SQLite database. The backend logic is tested using Cypress, ensuring robust and reliable database operations.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Add Toll Transactions**: Add new toll transactions with vehicle ID, toll booth ID, and amount paid.
+- **Update Toll Transactions**: Modify existing toll transactions.
+- **Query Toll Transactions**: Retrieve specific or all toll transactions.
+- **Get Next ID**: Fetch the next available ID for toll transactions.
+- **Database Initialization**: Ensure that the toll transactions table is created in the database if it doesn't already exist.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Technologies Used
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Node.js**: Runtime environment for running JavaScript code on the server.
+- **TypeScript**: Typed superset of JavaScript that compiles to plain JavaScript, ensuring type safety and better code quality.
+- **Cypress**: Testing framework used for end-to-end testing of the app's backend logic.
+- **SQLite3**: Lightweight, disk-based database that doesn’t require a separate server process, used for storing toll transactions.
+- **Zsh**: Shell used for managing the development environment.
+- **NVM (Node Version Manager)**: Manages multiple Node.js versions.
+- **Oh My Zsh**: Framework for managing your Zsh configuration.
 
-### `npm test`
+## Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Node.js (v18.x.x)**: Ensure Node.js is installed. You can manage versions using NVM.
+- **npm**: Comes with Node.js for managing packages.
+- **SQLite3**: Ensure you have SQLite3 installed.
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-repo/tolling-system-app.git
+   cd tolling-system-app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Usage
+-----
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Running the App
 
-### `npm run eject`
+Since the app is designed primarily for backend operations and testing, it doesn't have a traditional "run" command. Instead, you'll interact with the database through Cypress tasks and tests.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Testing the App
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1.  **Open Cypress:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    bash
+    `npx cypress open`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2.  **Run Tests:**
 
-## Learn More
+    -   From the Cypress UI, select the desired test file (e.g., `add-toll-transaction.cy.ts`) and click to run it.
+    -   The tests will perform various operations like adding, updating, querying, and retrieving the next ID from the database.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Project Structure:**
+-----------------
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+`tolling-system-app/
+│
+├── cypress/
+│   ├── e2e/                   # End-to-end test files
+│   │   ├── add-toll-transaction.cy.ts
+│   │   ├── get-next-id.cy.ts
+│   │   └── ...
+│   ├── support/
+│   │   └── e2e.ts             # Custom commands and overrides for Cypress
+│   └── cypress.config.ts      # Cypress configuration and tasks
+│
+├── src/                       # Source code (if applicable)
+│   ├── ...
+│
+├── .zshrc                     # Zsh configuration file with custom theme and Git branch parsing
+├── package.json               # Project dependencies and scripts
+└── README.md                  # Project documentation`
