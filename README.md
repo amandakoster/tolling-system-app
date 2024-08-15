@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Tolling System App is designed to manage toll transactions efficiently. 
+The Tolling System App is designed to manage toll transactions efficiently. This app allows you to add, update, and query toll transactions in a SQLite database. The backend logic is tested using Cypress, ensuring robust and reliable database operations.
 
 This repository contains a mock backend system for managing toll transactions. It includes functionality for adding, querying, updating toll transactions in a SQLite database, and streaming toll transaction data. End-to-end tests are implemented using Cypress.
 
@@ -43,6 +43,10 @@ Usage
 
 ### Running the App
 
+##### App: 
+`npm start`
+
+##### Tests: 
 Since the app is designed primarily for backend operations and testing, it doesn't have a traditional "run" command. Instead, you'll interact with the database through Cypress tasks and tests.
 
 ### Testing the App [testing is in progress]
