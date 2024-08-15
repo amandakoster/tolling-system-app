@@ -1,7 +1,7 @@
-const sqlite3 = require("sqlite3").verbose();
+import sqlite3 from "sqlite3";
 const db = new sqlite3.Database(":memory:");
 
-module.exports = (on: any, config: any) => {
+module.exports = (on: any) => {
   on("task", {
     initDB() {
       return new Promise((resolve, reject) => {
