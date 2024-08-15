@@ -39,8 +39,8 @@ const TollChart: React.FC<TollChartProps> = ({ transactions, className }) => {
         label: "Amount Paid",
         data: transactions.map((transaction) => transaction.amountPaid),
         fill: false,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(0, 92, 194, 1)",
+        borderColor: "rgba(0, 92, 194, 1)",
       },
     ],
   };

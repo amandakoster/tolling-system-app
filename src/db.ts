@@ -2,10 +2,10 @@ import initSqlJs, { Database } from "sql.js";
 import { TollTransaction } from "./types";
 
 // Test if WebAssembly is set up
-console.log(typeof WebAssembly === "object");
+// console.log(typeof WebAssembly === "object");
 
-// Dynamically import the wasm file
-const sqlWasmPath = new URL("sql.js/dist/sql-wasm.wasm", import.meta.url).href;
+// Use a relative path to the wasm file
+const sqlWasmPath = "/path/to/your/sql-wasm.wasm";
 
 // Initially setting db to null allows the program to reference the variable and later assign it the actual database connection once it's ready.
 let db: Database | null = null;

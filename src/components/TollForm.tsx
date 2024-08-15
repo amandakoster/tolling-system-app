@@ -7,11 +7,13 @@ interface TollFormProps {
   ) => void;
   onCancel: () => void;
   selectedTransaction?: TollTransaction | null;
+  className?: string;
 }
 const TollForm: React.FC<TollFormProps> = ({
   onSubmit,
   onCancel,
   selectedTransaction,
+  className,
 }: TollFormProps) => {
   // state to manage form
   const [vehicleId, setVehicleId] = useState<string>("");
@@ -57,7 +59,7 @@ const TollForm: React.FC<TollFormProps> = ({
   const buttonClass = "border border-black hover:bg-red-100 m-1 p-1";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-red-500">
+    <form onSubmit={handleSubmit} className={className}>
       <div>
         <label>
           Vehicle ID:

@@ -15,7 +15,7 @@ const TollList: React.FC<TollListProps> = ({
   className,
 }) => {
   return (
-    <div className={`${className} h-96`}>
+    <div className={`${className} overflow-y-auto h-96`}>
       <ul>
         {transactions.map((transaction) => (
           <div key={transaction.id}>

@@ -32,23 +32,7 @@ const App: React.FC = () => {
     initializeDB();
   }, []);
 
-  // useEffect(() => {
-  //   // Simulate live data from multiple toll booths
-  //   const simulateLiveData = setInterval(() => {
-  //     const tollBoothIds = ["Booth-1", "Booth-2", "Booth-3", "Booth-4"];
-  //     const randomVehicleId = `Vehicle-${Math.floor(Math.random() * 100)}`;
-  //     const randomTollBoothId =
-  //       tollBoothIds[Math.floor(Math.random() * tollBoothIds.length)];
-  //     const randomAmountPaid = Math.floor(Math.random() * 100) + 1;
-
-  //     handleAddToll({
-  //       vehicleId: randomVehicleId,
-  //       tollBoothId: randomTollBoothId,
-  //       amountPaid: randomAmountPaid,
-  //     });
-  //   }, 3000);
-
-  // TOggle live streaming data
+  // Toggle live streaming data
   const toggleStreaming = () => {
     if (streaming) {
       // Cleanup on component unmount
@@ -94,10 +78,6 @@ const App: React.FC = () => {
     setSelectedTransaction(null); // Clear selection after updating
   };
 
-  const handleEditToll = (transaction: TollTransaction) => {
-    setSelectedTransaction(transaction);
-  };
-
   const handleDeleteToll = (id: number) => {
     deleteTollTransaction(id);
     setTollTransactions((prev) =>
@@ -108,8 +88,6 @@ const App: React.FC = () => {
   const handleCancelEdit = () => {
     setSelectedTransaction(null);
   };
-
-  const buttonClass = "border border-black hover:bg-red-100 m-1 p-1";
 
   return (
     <div className="App p-4">
