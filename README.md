@@ -6,6 +6,8 @@ The Tolling System App is designed to manage toll transactions efficiently. This
 
 This repository contains a mock backend system for managing toll transactions. It includes functionality for adding, querying, updating toll transactions in a SQLite database, and streaming toll transaction data. End-to-end tests are implemented using Cypress.
 
+This app uses SQL.js which operates entirely within the browser, using WebAssembly to execute SQLite queries without any need for backend interaction. It is a powerful tool for running lightweight, client-side SQL databases but is limited to the scope of what can be done within the browser environment. All data processing is done locally, and if you need to persist data across sessions, you must manually handle it by saving the database state to a file or browser storage like IndexedDB.
+
 
 ## Features
 
